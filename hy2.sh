@@ -342,7 +342,7 @@ unsthysteria(){
     iptables -t nat -F PREROUTING >/dev/null 2>&1
     netfilter-persistent save >/dev/null 2>&1
 
-    green "Uninstalled successfully"
+    green "卸载完成"
 }
 
 starthysteria(){
@@ -456,10 +456,15 @@ changeconf() {
 
 showconf(){
     green  "-----链接-----"
+    green
     yellow "$(cat /root/hy/url.txt)"
+    green
     green  "-----单端口链接-----"
+    green
     yellow "$(cat /root/hy/url-nohop.txt)"
+    green
     green  "-----SURGE链接-----"
+    green
     yellow "$(cat /root/hy/HY4SURGE.txt)"
 }
 
@@ -481,7 +486,6 @@ menu() {
     echo -e " ${YELLOW}5.${PLAIN} 查看配置"
     echo -e " ${YELLOW}6.${PLAIN} 升级core"
     echo -e " ${YELLOW}0.${PLAIN} 退出"
-    echo " --------------------------------------------------------------------------------"
     #echo ""
     read -rp "Option [0-5]: " menuInput
     case $menuInput in
