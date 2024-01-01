@@ -459,18 +459,13 @@ changeconf() {
 
 showconf(){
     green 
-    green  "-----链接-----"
-    green
+    green  "------------------链接------------------"
     yellow "$(cat /root/hy/url.txt)"
     green 
-    green 
-    green  "-----单端口链接-----"
-    green
+    green  "------------------单端口链接------------------"
     yellow "$(cat /root/hy/url-nohop.txt)"
     green 
-    green
-    green  "-----SURGE链接-----"
-    green
+    green  "------------------SURGE链接------------------"
     yellow "$(cat /root/hy/HY4SURGE.txt)"
 }
 
@@ -485,15 +480,15 @@ menu() {
     echo ""
     echo -e " ${YELLOW}-----Hysteria2一键脚本-----${PLAIN}"
     echo ""
-    echo -e " ${YELLOW}1.${PLAIN} 安装"
-    echo -e " ${YELLOW}2.${PLAIN} 卸载"
-    echo -e " ${YELLOW}3.${PLAIN} 启动.停止.重启"
-    echo -e " ${YELLOW}4.${PLAIN} 修改配置"
-    echo -e " ${YELLOW}5.${PLAIN} 查看配置"
-    echo -e " ${YELLOW}6.${PLAIN} 升级core"
-    echo -e " ${YELLOW}0.${PLAIN} 退出"
+    echo -e " ${YELLOW}1. 安装${PLAIN}"
+    echo -e " ${YELLOW}2. 卸载${PLAIN}"
+    echo -e " ${YELLOW}3. 启动.停止.重启${PLAIN}"
+    echo -e " ${YELLOW}4. 修改配置${PLAIN}"
+    echo -e " ${YELLOW}5. 查看配置${PLAIN}"
+    echo -e " ${YELLOW}6. 升级core${PLAIN}"
+    echo -e " ${YELLOW}0. 退出${PLAIN}"
     #echo ""
-    read -rp "Option [0-5]: " menuInput
+    read -rp "选择 [0-5]: " menuInput
     case $menuInput in
         1 ) insthysteria ;;
         2 ) unsthysteria ;;
