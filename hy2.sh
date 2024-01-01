@@ -500,3 +500,5 @@ menu() {
         * ) menu ;;
     esac
 }
+
+menu
