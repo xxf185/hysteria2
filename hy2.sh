@@ -64,9 +64,9 @@ realip(){
 inst_cert(){
     green "选择证书申请方式:"
     echo ""
-    echo -e " ${GREEN}1.使用 ACME（默认）${PLAIN} "
-    echo -e " ${GREEN}2.使用自签名证书 (OpenSSL)${PLAIN} "
-    echo -e " ${GREEN}3.使用自定义证书${PLAIN} "
+    echo -e " ${YELLOW}1.使用 ACME（默认）${PLAIN} "
+    echo -e " ${YELLOW}2.使用自签名证书 (OpenSSL)${PLAIN} "
+    echo -e " ${YELLOW}3.使用自定义证书${PLAIN} "
     echo ""
     read -rp "选择 [1-3]: " certInput
 
@@ -179,8 +179,8 @@ inst_port(){
 inst_jump() {
     green "Hysteria 2端口使用模式:"
     echo ""
-    echo -e " ${GREEN}1.单端口模式 (默认)${PLAIN}"
-    echo -e " ${GREEN}2.端口范围跳跃${PLAIN}"
+    echo -e " ${YELLOW}1.单端口模式 (默认)${PLAIN}"
+    echo -e " ${YELLOW}2.端口范围跳跃${PLAIN}"
     echo ""
     read -rp "选择 [1-2]: " jumpInput
     if [[ $jumpInput == 2 ]]; then
@@ -360,9 +360,9 @@ stophysteria(){
 
 hysteriaswitch(){
     echo ""
-    echo -e " ${GREEN}1.启动${PLAIN} "
-    echo -e " ${GREEN}2.停止${PLAIN} "
-    echo -e " ${GREEN}3.重启${PLAIN} "
+    echo -e " ${YELLOW}1.启动${PLAIN} "
+    echo -e " ${YELLOW}2.停止${PLAIN} "
+    echo -e " ${YELLOW}3.重启${PLAIN} "
     echo ""
     read -rp "选择 [0-3]: " switchInput
     case $switchInput in
@@ -442,10 +442,10 @@ changeproxysite(){
 
 changeconf() {
     green ""
-    echo -e " ${GREEN}1.更改端口${PLAIN} "
-    echo -e " ${GREEN}2.更改密码${PLAIN} "
-    echo -e " ${GREEN}3.更新证书${PLAIN} "
-    echo -e " ${GREEN}4.更改伪装网站${PLAIN} "
+    echo -e " ${YELLOW}1.更改端口${PLAIN} "
+    echo -e " ${YELLOW}2.更改密码${PLAIN} "
+    echo -e " ${YELLOW}3.更新证书${PLAIN} "
+    echo -e " ${YELLOW}4.更改伪装网站${PLAIN} "
     echo ""
     read -p " 选择 [1-4]: " confAnswer
     case $confAnswer in
@@ -481,7 +481,7 @@ menu() {
     echo -e " ${YELLOW}-----Hysteria2一键脚本-----${PLAIN}"
     echo ""
     echo -e " ${YELLOW}1. 安装${PLAIN}"
-    echo -e " ${YELLOW}2. 卸载${PLAIN}"
+    echo -e " ${RED}2. 卸载${PLAIN}"
     echo -e " ${YELLOW}3. 启动.停止.重启${PLAIN}"
     echo -e " ${YELLOW}4. 修改配置${PLAIN}"
     echo -e " ${YELLOW}5. 查看配置${PLAIN}"
