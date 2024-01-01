@@ -444,7 +444,7 @@ changeconf() {
     green ""
     echo -e " ${YELLOW}1.更改端口${PLAIN} "
     echo -e " ${YELLOW}2.更改密码${PLAIN} "
-    echo -e " ${YELLOW}3.更新证书${PLAIN} "
+    echo -e " ${YELLOW}3.更改证书类型${PLAIN} "
     echo -e " ${YELLOW}4.更改伪装网站${PLAIN} "
     echo ""
     read -p " 选择 [1-4]: " confAnswer
