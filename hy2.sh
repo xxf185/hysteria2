@@ -62,13 +62,13 @@ realip(){
 }
 
 inst_cert(){
-    green "Select certificate application method:"
+    green "选择证书申请方式:"
     echo ""
-    echo -e " ${GREEN}1.${PLAIN} Use ACME (default)"
-    echo -e " ${GREEN}2.${PLAIN} Generate OpenSSL pseudo-certificate"
-    echo -e " ${GREEN}3.${PLAIN} Use custom certificate"
+    echo -e " ${GREEN}1.${PLAIN} 使用 ACME（默认）"
+    echo -e " ${GREEN}2.${PLAIN} 使用自签名证书 (OpenSSL)"
+    echo -e " ${GREEN}3.${PLAIN} 使用自定义证书"
     echo ""
-    read -rp "Option [1-3]: " certInput
+    read -rp "选择 [1-3]: " certInput
 
     # If no input is provided, default to 1 (Apply using ACME)
     if [[ -z "$certInput" ]]; then
@@ -97,9 +97,9 @@ inst_cert(){
                 realip
             fi
             
-            read -p "Enter domain to apply for certificate: " domain
-            [[ -z $domain ]] && red "Invalid input, exiting script" && exit 1
-            green "Confirmed:$domain" && sleep 1
+            read -p "输入域名申请证书: " domain
+            [[ -z $domain ]] && red "输入错误" && exit 1
+            green "域名:$domain" && sleep 1
             domainIP=$(curl -sm8 ipget.net/?ip="${domain}")
             if [[ $domainIP == $ip ]]; then
             sudo $PACKAGE_MANAGER install -y curl wget sudo socat openssl
@@ -127,26 +127,26 @@ inst_cert(){
                     echo $domain > /root/ca.log
                     sed -i '/--cron/d' /etc/crontab >/dev/null 2>&1
                     echo "0 0 * * * root bash /root/.acme.sh/acme.sh --cron -f >/dev/null 2>&1" >> /etc/crontab
-                    green "Certificate and key generated successfully and saved in /root directory."
-                    yellow "Certificate path: /root/cert.crt"
-                    yellow "Key path: /root/private.key"
+                    green "证书生成成功并保存在 /root 目录中。"
+                    yellow "公钥路径: /root/cert.crt"
+                    yellow "私钥路径: /root/private.key"
                     hy_domain=$domain
                 fi
             else
-                red "Domain name provided cannot be resolved"
+                red "域名无法解析"
                 exit 1
             fi
         fi
     elif [[ $certInput == 3 ]]; then
-        read -p "Enter public key (CRT) path: " cert_path
-        yellow "Public key path: $cert_path"
-        read -p "Enter private key (KEY) path: " key_path
-        yellow "Private key path: $key_path"
-        read -p "Enter certificate domain: " domain
-        yellow "Certificate domain: $domain"
+        read -p "输入公钥(CRT) path: " cert_path
+        yellow "公钥路径: $cert_path"
+        read -p "输入私钥 (KEY) path: " key_path
+        yellow "私钥路径: $key_path"
+        read -p "输入证书域名: " domain
+        yellow "证书域名: $domain"
         hy_domain=$domain
     else
-        green "Using self-signed certificate (OpenSSL)"
+        green "使用自签名证书 (OpenSSL)"
         cert_path="/etc/hysteria/cert.crt"
         key_path="/etc/hysteria/private.key"
         openssl ecparam -genkey -name prime256v1 -out /etc/hysteria/private.key
@@ -161,62 +161,62 @@ inst_cert(){
 inst_port(){
     iptables -t nat -F PREROUTING >/dev/null 2>&1
 
-    read -p "SET Hysteria 2 PORT [1-65535] (DEFAULT FOR RANDOM): " port
+    read -p "输入port [1-65535] (默认为随机): " port
     [[ -z $port ]] && port=$(shuf -i 2000-65535 -n 1)
     until [[ -z $(ss -tunlp | grep -w udp | awk '{print $5}' | sed 's/.*://g' | grep -w "$port") ]]; do
         if [[ -n $(ss -tunlp | grep -w udp | awk '{print $5}' | sed 's/.*://g' | grep -w "$port") ]]; then
-            echo -e "${RED} PORT $port ${PLAIN} IS ALREADY IN USED. PLEASE RETRY A DIFFERENT PORT"
-            read -p "SET Hysteria 2 PORT [1-65535] (DEFAULT FOR RANDOM): " port
+            echo -e "${RED} PORT $port ${PLAIN} 已占用.请重试不同的端口"
+            read -p "输入port [1-65535] (默认为随机): " port
             [[ -z $port ]] && port=$(shuf -i 2000-65535 -n 1)
         fi
     done
 
 
-    yellow "Confirmed:$port"
+    yellow "port:$port"
     inst_jump
 }
 
 inst_jump() {
-    green "Hysteria 2 Port Usage Mode:"
+    green "Hysteria 2端口使用模式:"
     echo ""
-    echo -e " ${GREEN}1.${PLAIN} Single Port Mode ${YELLOW}(DEFAULT)${PLAIN}"
-    echo -e " ${GREEN}2.${PLAIN} Port Range Hopping"
+    echo -e " ${GREEN}1.${PLAIN} 单端口模式 ${YELLOW}(DEFAULT)${PLAIN}"
+    echo -e " ${GREEN}2.${PLAIN} 端口范围跳跃"
     echo ""
-    read -rp "Option [1-2]: " jumpInput
+    read -rp "选择 [1-2]: " jumpInput
     if [[ $jumpInput == 2 ]]; then
-        read -p "Enter start port for range (recommended 10000-65535): " firstport
-        read -p "Enter end port for range (must be greater than start port): " endport
+        read -p "输入范围的起始端口（建议 10000-65535）: " firstport
+        read -p "输入范围的结束端口（必须大于起始端口）: " endport
         while [[ $firstport -ge $endport ]]; do
-            red "Start port must be less than end port. Please re-enter start and end ports."
-            read -p "Enter start port for range (recommended 10000-65535): " firstport
-            read -p "Enter end port for range (recommended 10000-65535, must be greater than start port): " endport
+            red "起始端口必须小于结束端口。 请重新输入起始端口和结束端口。"
+            read -p "输入范围的起始端口（建议 10000-65535）：" firstport
+            read -p "输入范围的结束端口（建议10000-65535，必须大于起始端口）: " endport
         done
         iptables -t nat -A PREROUTING -p udp --dport $firstport:$endport  -j DNAT --to-destination :$port
         ip6tables -t nat -A PREROUTING -p udp --dport $firstport:$endport  -j DNAT --to-destination :$port
         netfilter-persistent save >/dev/null 2>&1
     else
-        red "Continuing in single port mode."
+        red "继续单端口模式"
     fi
 }
 
 
 inst_pwd() {
-    read -p "Enter password (default random): " auth_pwd
+    read -p "输入密码（默认随机）： " auth_pwd
     [[ -z $auth_pwd ]] && auth_pwd=$(date +%s%N | md5sum | cut -c 1-8)
-    yellow "Confirmed: $auth_pwd"
+    yellow "密码: $auth_pwd"
 }
 
 inst_site() {
-    read -rp "Enter masquerade site URL (omit https://) [default SEGA Japan]: " proxysite
+    read -rp "输入伪装网站 URL（无需 https://）[默认 SEGA Japan]： " proxysite
     [[ -z $proxysite ]] && proxysite="maimai.sega.jp"
-    yellow "Confirmed: $proxysite"
+    yellow "伪装网站: $proxysite"
 }
 
 
 insthysteria(){
 
     if netstat -tuln | grep -q ":80 "; then
-        echo "Port 80 is already in use. Exiting..."
+        echo "80 端口已被占用退出..."
         exit 1
     fi
 
@@ -251,9 +251,9 @@ insthysteria(){
     bash <(curl -fsSL https://github.com/xxf185/hysteria2/releases/download/v1.0/install_server.sh)
 
     if [[ -f "/usr/local/bin/hysteria" ]]; then
-        green "Installation successful."
+        green "安装成功"
     else
-        red "Installation failed."
+        red "安装失败"
         exit 1
     fi
 
@@ -320,18 +320,18 @@ EOF
     systemctl enable hysteria-server
     systemctl start hysteria-server
     if [[ -n $(systemctl status hysteria-server 2>/dev/null | grep -w active) && -f '/etc/hysteria/config.yaml' ]]; then
-        green "Hysteria 2 started successfully."
+        green "Hysteria 2 启动成功"
     else
-        red "Hysteria 2 failed to start. Try 'systemctl status hysteria-server' for details. Exiting." && exit 1
+        red "Hysteria 2 启动失败" && exit 1
     fi
-    blue "A faint clap of thunder, Clouded skies."
-    green "Hysteria 2 installed successfully."
-    yellow "Hysteria 2 proxy share link (path: /root/hy/url.txt):"
-    red "$(cat /root/hy/url.txt)"
-    yellow "Hysteria 2 single port share link (path: /root/hy/url-nohop.txt):"
-    red "$(cat /root/hy/url-nohop.txt)"
-    yellow "Hysteria 2 proxy share info for SURGE (path: /root/hy/HY4SURGE.txt):"
-    red "$(cat /root/hy/HY4SURGE.txt)"
+    blue ""
+    green "Hysteria 2 安装成功"
+    green"Hysteria 2 配置文件 (path: /root/hy/url.txt):"
+    yellow "$(cat /root/hy/url.txt)"
+    green "Hysteria 2 单端口配置文件(path: /root/hy/url-nohop.txt):"
+    yellow  "$(cat /root/hy/url-nohop.txt)"
+    green "Hysteria 2 SURGE 配置文件 (path: /root/hy/HY4SURGE.txt):"
+    yellow  "$(cat /root/hy/HY4SURGE.txt)"
 }
 
 unsthysteria(){
@@ -356,14 +356,12 @@ stophysteria(){
 }
 
 hysteriaswitch(){
-    light_purple "Perhaps rain comes."
-    light_purple "If so, will you stay here with me?"
     echo ""
-    echo -e " ${GREEN}1.${PLAIN} Start"
-    echo -e " ${GREEN}2.${PLAIN} Shutdown"
-    echo -e " ${GREEN}3.${PLAIN} Restart"
+    echo -e " ${GREEN}1.${PLAIN} 启动"
+    echo -e " ${GREEN}2.${PLAIN} 关闭"
+    echo -e " ${GREEN}3.${PLAIN} 重启"
     echo ""
-    read -rp "Option [0-3]: " switchInput
+    read -rp "选择 [0-3]: " switchInput
     case $switchInput in
         1 ) starthysteria ;;
         2 ) stophysteria ;;
@@ -375,7 +373,7 @@ hysteriaswitch(){
 changeport(){
     oldport=$(cat /etc/hysteria/config.yaml 2>/dev/null | sed -n 1p | awk '{print $2}' | awk -F ":" '{print $2}')
     
-    read -p "ENTER Hysteria 2 PORT [1-65535] (PRESS ENTER FOR RANDOM PORT): " port
+    read -p "输入端口 [1-65535]（默认随机）: " port
     [[ -z $port ]] && port=$(shuf -i 2000-65535 -n 1)
 
     until [[ -z $(ss -tunlp | grep -w udp | awk '{print $5}' | sed 's/.*://g' | grep -w "$port") ]]; do
@@ -391,14 +389,14 @@ changeport(){
 
     stophysteria && starthysteria
 
-    green "Port updated: $port"
+    green "端口已更新: $port"
     showconf
 }
 
 changepasswd(){
     oldpasswd=$(cat /etc/hysteria/config.yaml 2>/dev/null | sed -n 15p | awk '{print $2}')
 
-    read -p "ENTER Hysteria 2 PASSWORD (PRESS ENTER FOR RANDOM): " passwd
+    read -p "输入密码（默认随机）: " passwd
     [[ -z $passwd ]] && passwd=$(date +%s%N | md5sum | cut -c 1-8)
 
     sed -i "1s#$oldpasswd#$passwd#g" /etc/hysteria/config.yaml
@@ -406,7 +404,7 @@ changepasswd(){
 
     stophysteria && starthysteria
 
-    green "password updated: $auth_pwd"
+    green "密码已更新: $auth_pwd"
     showconf
 }
 
@@ -423,7 +421,7 @@ change_cert(){
 
     stophysteria && starthysteria
 
-    green "Certificate updated"
+    green "证书已更新"
     showconf
 }
 
@@ -436,17 +434,17 @@ changeproxysite(){
 
     stophysteria && starthysteria
 
-    green "shell-site updated: $proxysite"
+    green "伪装网站已更新: $proxysite"
 }
 
 changeconf() {
-    green "Hysteria 2 Configuration Menu:"
-    echo -e " ${GREEN}1.${PLAIN} Modify port"
-    echo -e " ${GREEN}2.${PLAIN} Modify password"
-    echo -e " ${GREEN}3.${PLAIN} Modify certificate"
-    echo -e " ${GREEN}4.${PLAIN} Modify masquerade site"
+    green ""
+    echo -e " ${GREEN}1.${PLAIN} 更改端口"
+    echo -e " ${GREEN}2.${PLAIN} 更改密码"
+    echo -e " ${GREEN}3.${PLAIN} 更新证书"
+    echo -e " ${GREEN}4.${PLAIN} 更改伪装网站"
     echo ""
-    read -p " Please select an option [1-4]: " confAnswer
+    read -p " 选择 [1-4]: " confAnswer
     case $confAnswer in
         1 ) changeport ;;
         2 ) changepasswd ;;
@@ -457,11 +455,11 @@ changeconf() {
 }
 
 showconf(){
-    yellow "Hysteria 2 share link:"
+    yellow "-----链接-----"
     red "$(cat /root/hy/url.txt)"
-    yellow "Hysteria 2 single port share link:"
+    yellow "-----单端口链接-----"
     red "$(cat /root/hy/url-nohop.txt)"
-    yellow "Hysteria 2 proxy info for SURGE:"
+    yellow "-----SURGE链接-----"
     red "$(cat /root/hy/HY4SURGE.txt)"
 }
 
