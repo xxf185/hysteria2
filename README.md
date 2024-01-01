@@ -1,1 +1,2 @@
-bash <(wget -qO- -o- https://raw.githubusercontent.com/iyqgrl/hysteria2/main/hy2.sh)
+
+bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/Hysteria2/main/hy2.sh)
