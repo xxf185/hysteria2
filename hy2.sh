@@ -481,7 +481,7 @@ menu() {
     echo -e " ${YELLOW}-----Hysteria2一键脚本-----${PLAIN}"
     echo ""
     echo -e " ${YELLOW}1. 安装${PLAIN}"
-    echo -e " ${RED}2. 卸载${PLAIN}"
+    echo -e " ${YELLOW}2. 卸载${PLAIN}"
     echo -e " ${YELLOW}3. 启动.停止.重启${PLAIN}"
     echo -e " ${YELLOW}4. 修改配置${PLAIN}"
     echo -e " ${YELLOW}5. 查看配置${PLAIN}"
