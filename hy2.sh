@@ -358,7 +358,7 @@ stophysteria(){
 hysteriaswitch(){
     echo ""
     echo -e " ${GREEN}1.${PLAIN} 启动"
-    echo -e " ${GREEN}2.${PLAIN} 关闭"
+    echo -e " ${GREEN}2.${PLAIN} 停止"
     echo -e " ${GREEN}3.${PLAIN} 重启"
     echo ""
     read -rp "选择 [0-3]: " switchInput
@@ -455,12 +455,12 @@ changeconf() {
 }
 
 showconf(){
-    yellow "-----链接-----"
-    red "$(cat /root/hy/url.txt)"
-    yellow "-----单端口链接-----"
-    red "$(cat /root/hy/url-nohop.txt)"
-    yellow "-----SURGE链接-----"
-    red "$(cat /root/hy/HY4SURGE.txt)"
+    green  "-----链接-----"
+    yellow "$(cat /root/hy/url.txt)"
+    green  "-----单端口链接-----"
+    yellow "$(cat /root/hy/url-nohop.txt)"
+    green  "-----SURGE链接-----"
+    yellow "$(cat /root/hy/HY4SURGE.txt)"
 }
 
 update_core(){
@@ -471,20 +471,16 @@ update_core(){
 
 menu() {
     clear
-    echo -e " ${LIGHT_PURPLE}Hysteria 2${PLAIN}"
     echo ""
-    echo -e " ${UNDERLINE_PURPLE}At what speed must i live, to be able to see you again?${PLAIN}"
-    # echo " --------------------------------------------------------------------------------"
-    echo -e " ${LIGHT_GREEN}1.${PLAIN} Install"
-    echo -e " ${LIGHT_GREEN}2.${PLAIN} ${RED}Uninstall${PLAIN}"
-    # echo " --------------------------------------------------------------------------------"
-    echo -e " ${LIGHT_GRAY}3.${PLAIN} Stop, Start, Restart"
-    echo -e " ${LIGHT_GRAY}4.${PLAIN} Modify config"
-    echo -e " ${LIGHT_GRAY}5.${PLAIN} Display config"
-    # echo " --------------------------------------------------------------------------------"
-    echo -e " ${LIGHT_YELLOW}6.${PLAIN} Update core"
-    # echo " --------------------------------------------------------------------------------"
-    echo -e " ${PURPLE}0.${PLAIN} Exit"
+    echo -e " ${YELLOW}-----Hysteria2一键脚本-----${PLAIN}"
+    echo ""
+    echo -e " ${YELLOW}1.${PLAIN} 安装"
+    echo -e " ${YELLOW}2.${PLAIN} 卸载"
+    echo -e " ${YELLOW}3.${PLAIN} 启动.停止.重启"
+    echo -e " ${YELLOW}4.${PLAIN} 修改配置"
+    echo -e " ${YELLOW}5.${PLAIN} 查看配置"
+    echo -e " ${YELLOW}6.${PLAIN} 升级core"
+    echo -e " ${YELLOW}0.${PLAIN} 退出"
     echo " --------------------------------------------------------------------------------"
     #echo ""
     read -rp "Option [0-5]: " menuInput
