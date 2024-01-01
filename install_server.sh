@@ -825,7 +825,7 @@ download_hysteria() {
   local _destination="$2"
 
   local _download_url="$REPO_URL/releases/download/app/$_version/hysteria-$OPERATING_SYSTEM-$ARCHITECTURE"
-  echo "Downloading hysteria binary: $_download_url ..."
+  echo "下载core: $_download_url ..."
   if ! curl -R -H 'Cache-Control: no-cache' "$_download_url" -o "$_destination"; then
     error "下载失败，请检查您的网络并重试。"
     return 11
@@ -975,7 +975,7 @@ perform_install() {
 
   if [[ -n "$_is_frash_install" ]]; then
     echo
-    echo -e "$(tbold) Hysteria 2安装完成.$(treset)"
+    echo -e "$(tbold)安装core完成.$(treset)"
     echo
   elif [[ -n "$_is_upgrade_from_hysteria1" ]]; then
     echo
@@ -983,7 +983,7 @@ perform_install() {
     restart_running_services
 
     echo
-    echo -e "$(tbold)Hysteria 已成功更新至$VERSION.$(treset)"
+    echo -e "$(tbold)Hysteria2已成功更新至$VERSION.$(treset)"
     echo
   fi
 }
@@ -994,7 +994,7 @@ perform_remove() {
   perform_remove_hysteria_systemd
 
   echo
-  echo -e "$(tbold)恭喜！ Hysteria 已成功从您的服务器中删除。$(treset)"
+  echo -e "$(tbold)恭喜！ Hysteria 已成功从您的服务器中删除$(treset)"
   echo
   echo -e "您仍然需要使用以下命令手动删除配置文件和 ACME 证书："
   echo
