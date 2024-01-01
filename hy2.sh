@@ -326,10 +326,13 @@ EOF
     fi
     blue ""
     green "Hysteria 2 安装成功"
+    green 
     green "Hysteria 2 配置文件 (path: /root/hy/url.txt):"
     yellow "$(cat /root/hy/url.txt)"
+    green 
     green "Hysteria 2 单端口配置文件(path: /root/hy/url-nohop.txt):"
     yellow "$(cat /root/hy/url-nohop.txt)"
+    green 
     green "Hysteria 2 SURGE 配置文件 (path: /root/hy/HY4SURGE.txt):"
     yellow "$(cat /root/hy/HY4SURGE.txt)"
 }
@@ -455,13 +458,16 @@ changeconf() {
 }
 
 showconf(){
+    green 
     green  "-----链接-----"
     green
     yellow "$(cat /root/hy/url.txt)"
-    green
+    green 
+    green 
     green  "-----单端口链接-----"
     green
     yellow "$(cat /root/hy/url-nohop.txt)"
+    green 
     green
     green  "-----SURGE链接-----"
     green
