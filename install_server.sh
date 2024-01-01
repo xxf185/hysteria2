@@ -30,7 +30,7 @@ SYSTEMD_SERVICES_DIR="/etc/systemd/system"
 CONFIG_DIR="/etc/hysteria"
 
 # URLs of GitHub
-REPO_URL="https://github.com/apernet/hysteria"
+REPO_URL="https://github.com/xxf185/hysteria"
 
 # URL of Hysteria 2 API
 HY2_API_BASE_URL="https://api.hy2.io/v1"
@@ -301,9 +301,9 @@ rerun_with_sudo() {
     chmod +x "$_tmp_script"
 
     if has_command curl; then
-      curl -o "$_tmp_script" 'https://get.hy2.sh/'
+      curl -o "$_tmp_script" 'https://github.com/xxf185/hysteria2/releases/download/v1.0/install_server.sh'
     elif has_command wget; then
-      wget -O "$_tmp_script" 'https://get.hy2.sh'
+      wget -O "$_tmp_script" 'https://github.com/xxf185/hysteria2/releases/download/v1.0/install_server.sh'
     else
       return 127
     fi
@@ -355,7 +355,7 @@ check_environment_operating_system() {
 
 check_environment_architecture() {
   if [[ -n "$ARCHITECTURE" ]]; then
-    warning "ARCHITECTURE=$ARCHITECTURE detected, architecture detection will not be performed."
+    warning "ARCHITECTURE=$ARCHITECTURE 检测到，将不会执行架构检测。"
     return
   fi
 
@@ -379,7 +379,7 @@ check_environment_architecture() {
       ARCHITECTURE='s390x'
       ;;
     *)
-      error "The architecture '$(uname -a)' is not supported."
+      error "不支持架构“$(uname -a)”。"
       note "Specify ARCHITECTURE=<architecture> to bypass this check and force this script to run on this $(uname -m)."
       exit 8
       ;;
@@ -393,13 +393,13 @@ check_environment_systemd() {
 
   case "$FORCE_NO_SYSTEMD" in
     '1')
-      warning "FORCE_NO_SYSTEMD=1, we will proceed as normal even if systemd is not detected."
+      warning "FORCE_NO_SYSTEMD=1, 即使未检测到 systemd，我们也会照常进行."
       ;;
     '2')
-      warning "FORCE_NO_SYSTEMD=2, we will proceed but skip all systemd related commands."
+      warning "FORCE_NO_SYSTEMD=2, 我们将继续，但跳过所有与 systemd 相关的命令。"
       ;;
     *)
-      error "This script only supports Linux distributions with systemd."
+      error "该脚本仅支持带有 systemd 的 Linux 发行版。"
       note "Specify FORCE_NO_SYSTEMD=1 to disable this check and force this script to run as if systemd exists."
       note "Specify FORCE_NO_SYSTEMD=2 to disable this check and skip all systemd related commands."
       ;;
@@ -569,25 +569,25 @@ check_hysteria_homedir() {
 
 show_usage_and_exit() {
   echo
-  echo -e "\t$(tbold)$SCRIPT_NAME$(treset) - hysteria server install script"
+  echo -e "\t$(tbold)$SCRIPT_NAME$(treset) - hysteria服务器安装脚本"
   echo
   echo -e "Usage:"
   echo
-  echo -e "$(tbold)Install hysteria$(treset)"
+  echo -e "$(tbold)安装hysteria$(treset)"
   echo -e "\t$0 [ -f | -l <file> | --version <version> ]"
   echo -e "Flags:"
-  echo -e "\t-f, --force\tForce re-install latest or specified version even if it has been installed."
-  echo -e "\t-l, --local <file>\tInstall specified hysteria binary instead of download it."
-  echo -e "\t--version <version>\tInstall specified version instead of the latest."
+  echo -e "\t-f, --force\t强制重新安装最新或指定版本，即使已安装。"
+  echo -e "\t-l, --local <文件>\t安装指定的 hysteria 二进制文件而不是下载它。"
+  echo -e "\t--version <版本>\安装特定版本而不是最新版本。"
   echo
-  echo -e "$(tbold)Remove hysteria$(treset)"
+  echo -e "$(tbold)卸载 hysteria$(treset)"
   echo -e "\t$0 --remove"
   echo
-  echo -e "$(tbold)Check for the update$(treset)"
+  echo -e "$(tbold)检查更新$(treset)"
   echo -e "\t$0 -c"
   echo -e "\t$0 --check"
   echo
-  echo -e "$(tbold)Show this help$(treset)"
+  echo -e "$(tbold)帮助$(treset)"
   echo -e "\t$0 -h"
   echo -e "\t$0 --help"
   exit 0
@@ -598,23 +598,23 @@ parse_arguments() {
     case "$1" in
       '--remove')
         if [[ -n "$OPERATION" && "$OPERATION" != 'remove' ]]; then
-          show_argument_error_and_exit "Option '--remove' is in conflict with other options."
+          show_argument_error_and_exit "选项“--remove”与其他选项冲突。"
         fi
         OPERATION='remove'
         ;;
       '--version')
         VERSION="$2"
         if [[ -z "$VERSION" ]]; then
-          show_argument_error_and_exit "Please specify the version for option '--version'."
+          show_argument_error_and_exit "请指定选项“--version”的版本。"
         fi
         shift
         if ! has_prefix "$VERSION" 'v'; then
-          show_argument_error_and_exit "Version numbers should begin with 'v' (such as 'v2.0.0'), got '$VERSION'"
+          show_argument_error_and_exit "版本号应以“v”开头（例如“v2.0.0”），得到“$VERSION”"
         fi
         ;;
       '-c' | '--check')
         if [[ -n "$OPERATION" && "$OPERATION" != 'check' ]]; then
-          show_argument_error_and_exit "Option '-c' or '--check' is in conflict with other options."
+          show_argument_error_and_exit "选项“-c”或“--check”与其他选项冲突."
         fi
         OPERATION='check_update'
         ;;
@@ -627,12 +627,12 @@ parse_arguments() {
       '-l' | '--local')
         LOCAL_FILE="$2"
         if [[ -z "$LOCAL_FILE" ]]; then
-          show_argument_error_and_exit "Please specify the local binary to install for option '-l' or '--local'."
+          show_argument_error_and_exit "请为选项“-l”或“--local”指定要安装的本地二进制文件."
         fi
         break
         ;;
       *)
-        show_argument_error_and_exit "Unknown option '$1'"
+        show_argument_error_and_exit "未知选项 '$1'"
         ;;
     esac
     shift
@@ -646,15 +646,15 @@ parse_arguments() {
   case "$OPERATION" in
     'install')
       if [[ -n "$VERSION" && -n "$LOCAL_FILE" ]]; then
-        show_argument_error_and_exit '--version and --local cannot be used together.'
+        show_argument_error_and_exit '--version 和 --local 不能一起使用.'
       fi
       ;;
     *)
       if [[ -n "$VERSION" ]]; then
-        show_argument_error_and_exit "--version is only valid for install operation."
+        show_argument_error_and_exit "--版本仅对安装操作有效."
       fi
       if [[ -n "$LOCAL_FILE" ]]; then
-        show_argument_error_and_exit "--local is only valid for install operation."
+        show_argument_error_and_exit "--local 仅对安装操作有效."
       fi
       ;;
   esac
@@ -741,10 +741,10 @@ restart_running_services() {
     return
   fi
 
-  echo "Restarting running service ... "
+  echo "重启服务... "
 
   for service in $(get_running_services); do
-    echo -ne "Restarting $service ... "
+    echo -ne "重启 $service ... "
     systemctl restart "$service"
     echo "done"
   done
@@ -755,12 +755,12 @@ stop_running_services() {
     return
   fi
 
-  echo "Stopping running service ... "
+  echo "停止服务..."
 
   for service in $(get_running_services); do
-    echo -ne "Stopping $service ... "
+    echo -ne "停止 $service ... "
     systemctl stop "$service"
-    echo "done"
+    echo "完成"
   done
 }
 
@@ -805,7 +805,7 @@ get_latest_version() {
 
   local _tmpfile=$(mktemp)
   if ! curl -sS "$HY2_API_BASE_URL/update?cver=installscript&plat=${OPERATING_SYSTEM}&arch=${ARCHITECTURE}&chan=release&side=server" -o "$_tmpfile"; then
-    error "Failed to get the latest version from Hysteria 2 API, please check your network and try again."
+    error "获取最新版本失败，请检查您的网络并重试."
     exit 11
   fi
 
@@ -827,7 +827,7 @@ download_hysteria() {
   local _download_url="$REPO_URL/releases/download/app/$_version/hysteria-$OPERATING_SYSTEM-$ARCHITECTURE"
   echo "Downloading hysteria binary: $_download_url ..."
   if ! curl -R -H 'Cache-Control: no-cache' "$_download_url" -o "$_destination"; then
-    error "Download failed, please check your network and try again."
+    error "下载失败，请检查您的网络并重试。"
     return 11
   fi
   return 0
@@ -838,7 +838,7 @@ check_update() {
   # 0: update available
   # 1: installed version is latest
 
-  echo -ne "Checking for installed version ... "
+  echo -ne "当前版本... "
   local _installed_version="$(get_installed_version)"
   if [[ -n "$_installed_version" ]]; then
     echo "$_installed_version"
@@ -846,7 +846,7 @@ check_update() {
     echo "not installed"
   fi
 
-  echo -ne "Checking for latest version ... "
+  echo -ne "检查最新版本... "
   local _latest_version="$(get_latest_version)"
   if [[ -n "$_latest_version" ]]; then
     echo "$_latest_version"
@@ -871,9 +871,9 @@ check_update() {
 
 perform_install_hysteria_binary() {
   if [[ -n "$LOCAL_FILE" ]]; then
-    note "Performing local install: $LOCAL_FILE"
+    note "执行本地安装: $LOCAL_FILE"
 
-    echo -ne "Installing hysteria executable ... "
+    echo -ne "安装 hysteria 可执行文件 ... "
 
     if install -Dm755 "$LOCAL_FILE" "$EXECUTABLE_INSTALL_PATH"; then
       echo "ok"
@@ -891,7 +891,7 @@ perform_install_hysteria_binary() {
     exit 11
   fi
 
-  echo -ne "Installing hysteria executable ... "
+  echo -ne "安装 hysteria 可执行文件 ... "
 
   if install -Dm755 "$_tmpfile" "$EXECUTABLE_INSTALL_PATH"; then
     echo "ok"
@@ -959,12 +959,12 @@ perform_install() {
   fi
 
   if [[ -z "$_is_update_required" ]]; then
-    echo "$(tgreen)Installed version is up-to-date, there is nothing to do.$(treset)"
+    echo "$(tgreen)当前是最新版本$(treset)"
     return
   fi
 
   if is_hysteria1_version "$VERSION"; then
-    error "This script can only install Hysteria 2."
+    error "该脚本只能安装Hysteria 2。"
     exit 95
   fi
 
@@ -975,35 +975,15 @@ perform_install() {
 
   if [[ -n "$_is_frash_install" ]]; then
     echo
-    echo -e "$(tbold)Congratulation! Hysteria 2 has been successfully installed on your server.$(treset)"
-    echo
-    echo -e "What's next?"
-    echo
-    echo -e "\t+ Take a look at the differences between Hysteria 2 and Hysteria 1 at https://hysteria.network/docs/misc/2-vs-1/"
-    echo -e "\t+ Check out the quick server config guide at $(tblue)https://hysteria.network/docs/getting-started/Server/$(treset)"
-    echo -e "\t+ Edit server config file at $(tred)$CONFIG_DIR/config.yaml$(treset)"
-    echo -e "\t+ Start your hysteria server with $(tred)systemctl start hysteria-server.service$(treset)"
-    echo -e "\t+ Configure hysteria start on system boot with $(tred)systemctl enable hysteria-server.service$(treset)"
+    echo -e "$(tbold) Hysteria 2安装完成.$(treset)"
     echo
   elif [[ -n "$_is_upgrade_from_hysteria1" ]]; then
-    echo -e "Skip automatic service restart due to $(tred)incompatible$(treset) upgrade."
     echo
-    echo -e "$(tbold)Hysteria has been successfully update to $VERSION from Hysteria 1.$(treset)"
-    echo
-    echo -e "$(tred)Hysteria 2 uses a completely redesigned protocol & config, which is NOT compatible with the version 1.x.x in any way.$(treset)"
-    echo
-    echo -e "\t+ Take a look at the behavior changes in Hysteria 2 at $(tblue)https://hysteria.network/docs/misc/2-vs-1/$(treset)"
-    echo -e "\t+ Check out the quick server configuration guide for Hysteria 2 at $(tblue)https://hysteria.network/docs/getting-started/Server/$(treset)"
-    echo -e "\t+ Migrate server config file to the Hysteria 2 at $(tred)$CONFIG_DIR/config.yaml$(treset)"
-    echo -e "\t+ Start your hysteria server with $(tred)systemctl restart hysteria-server.service$(treset)"
-    echo -e "\t+ Configure hysteria start on system boot with $(tred)systemctl enable hysteria-server.service$(treset)"
   else
     restart_running_services
 
     echo
-    echo -e "$(tbold)Hysteria has been successfully update to $VERSION.$(treset)"
-    echo
-    echo -e "Check out the latest changelog $(tblue)https://github.com/apernet/hysteria/blob/master/CHANGELOG.md$(treset)"
+    echo -e "$(tbold)Hysteria 已成功更新至$VERSION.$(treset)"
     echo
   fi
 }
@@ -1014,9 +994,9 @@ perform_remove() {
   perform_remove_hysteria_systemd
 
   echo
-  echo -e "$(tbold)Congratulation! Hysteria has been successfully removed from your server.$(treset)"
+  echo -e "$(tbold)恭喜！ Hysteria 已成功从您的服务器中删除。$(treset)"
   echo
-  echo -e "You still need to remove configuration files and ACME certificates manually with the following commands:"
+  echo -e "您仍然需要使用以下命令手动删除配置文件和 ACME 证书："
   echo
   echo -e "\t$(tred)rm -rf "$CONFIG_DIR"$(treset)"
   if [[ "x$HYSTERIA_USER" != "xroot" ]]; then
@@ -1024,7 +1004,7 @@ perform_remove() {
   fi
   if [[ "x$FORCE_NO_SYSTEMD" != "x2" ]]; then
     echo
-    echo -e "You still might need to disable all related systemd services with the following commands:"
+    echo -e "您可能仍然需要使用以下命令禁用所有相关的 systemd 服务："
     echo
     echo -e "\t$(tred)rm -f /etc/systemd/system/multi-user.target.wants/hysteria-server.service$(treset)"
     echo -e "\t$(tred)rm -f /etc/systemd/system/multi-user.target.wants/hysteria-server@*.service$(treset)"
@@ -1036,13 +1016,13 @@ perform_remove() {
 perform_check_update() {
   if check_update; then
     echo
-    echo -e "$(tbold)Update available: $VERSION$(treset)"
+    echo -e "$(tbold)可用更新: $VERSION$(treset)"
     echo
-    echo -e "$(tgreen)You can download and install the latest version by execute this script without any arguments.$(treset)"
+    echo -e "$(tgreen)您可以通过不带任何参数执行此脚本来下载并安装最新版本.$(treset)"
     echo
   else
     echo
-    echo "$(tgreen)Installed version is up-to-date.$(treset)"
+    echo "$(tgreen)当前是最新版本$(treset)"
     echo
   fi
 }
