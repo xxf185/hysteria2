@@ -487,7 +487,7 @@ menu() {
     echo -e " ${YELLOW}5. 查看配置${PLAIN}"
     echo -e " ${YELLOW}6. 升级core${PLAIN}"
     echo -e " ${YELLOW}0. 退出${PLAIN}"
-    #echo ""
+    echo ""
     read -rp "选择 [0-5]: " menuInput
     case $menuInput in
         1 ) insthysteria ;;
