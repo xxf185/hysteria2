@@ -248,7 +248,7 @@ insthysteria(){
 
 
     # Install Hysteria 2
-    bash <(curl -fsSL https://get.hy2.sh/)
+    bash <(curl -fsSL https://raw.githubusercontent.com/xxf185/hysteria2/main/hy2.sh/)
 
     if [[ -f "/usr/local/bin/hysteria" ]]; then
         green "Installation successful."
