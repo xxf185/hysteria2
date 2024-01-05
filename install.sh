@@ -180,7 +180,7 @@ echo ""
  }
 
 uninstall_hysteria > /dev/null 2>&1
-echo -e "正在卸载"
+echo -e ""
 sleep 1
 echo -e "卸载完成"
 
@@ -193,13 +193,10 @@ exit
      ;;
    3)
 echo "----------链接----------" 
-echo ""
 
 cd /root/hy3/
 
 cat /root/hy3/neko.txt
-
-echo ""
 
 echo "clashmate配置"
 
@@ -242,7 +239,7 @@ nohup ./hysteria-linux-$arch server &
 
 echo "更新core成功"
 }
-echo "正在更新"
+echo ""
 sleep 1
 updatehy2 > /dev/null 2>&1
 echo "更新完成"
@@ -342,9 +339,9 @@ while true; do
     done 
   
     if sed -i "s/443/$port/" config.yaml; then 
-      echo "$(random_color '端口号已设置为：')" "$port" 
+      echo "端口号已设置为" "$port" 
     else 
-      echo "$(random_color '替换端口号失败，退出脚本。')" 
+      echo "替换端口号失败" 
       exit 1 
     fi 
   
@@ -434,7 +431,7 @@ while true; do
     "")
       echo "使用默认的 IPv4 模式。"
       get_ipv4_info
-      echo "老登你的IP 地址为：$ipwan"
+      echo "IP 地址为：$ipwan"
       ipta="iptables"
       break
       ;;
@@ -450,7 +447,7 @@ if [ -f "/root/hy3/ca" ]; then
   echo "$(random_color '/root/hy3/ 文件夹中已存在名为 ca 的文件。跳过添加操作。')"
 else
 
-  echo "$(random_color '请输入你的域名（必须是解析好的域名哦）: ')"
+  echo "请输入你的域名"
   read -p "" domain
 
   while [ -z "$domain" ]; do
@@ -511,7 +508,7 @@ else
   exit 1
 fi
    
-    echo "$(random_color '是否要开启端口跳跃功能（回车默认不开启，输入1开启）: ')" 
+    echo "是否要开启端口跳跃功能（回车默认不开启，输入1开启）" 
     read -p "" port_jump 
   
     if [ -z "$port_jump" ]; then 
