@@ -72,7 +72,7 @@ set_architecture() {
       ;;
     *)
 
-      echo "暂时不支持你的系统哦，可能是因为不在已知架构范围内。"
+      echo "系统不支持"
       exit 1
       ;;
   esac
@@ -82,7 +82,7 @@ get_installed_version() {
     if [ -x "/root/hy3/hysteria-linux-$arch" ]; then
         version="$("/root/hy3/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
-        version="你还没有安装"
+        version="未安装"
     fi
 }
 
@@ -102,10 +102,10 @@ echo -e "----------hysteria2一键脚本----------"
 echo -e ""
  }
 
-echo -e "$(random_color '安装必要依赖中......')"
+echo -e "安装必要依赖"
 sleep 1
 install_missing_commands > /dev/null 2>&1
-echo -e "$(random_color '依赖安装完成')"
+echo -e "依赖安装完成"
 
 set_architecture
 
@@ -121,7 +121,7 @@ echo "1. 安装"
 echo "2. 卸载"
 echo "3. 查看配置"
 echo "4. 退出脚本"
-echo "5. 更新hy2内核(当前版本:$version)"
+echo "5. 更新core(当前版本:$version)"
 echo ""
 echo "hysteria2状态: $hy2zt"
 
@@ -176,7 +176,7 @@ systemctl stop ipppp.service
 systemctl disable ipppp.service
 rm /etc/systemd/system/ipppp.service
 iptables -F
-echo "卸载完成"
+echo ""
  }
 
 uninstall_hysteria > /dev/null 2>&1
@@ -201,11 +201,11 @@ cat /root/hy3/neko.txt
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '下面是你的clashmate配置')"
+echo "clashmate配置"
 
 cat /root/hy3/clash-mate.yaml
 
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
     exit
     ;;
     
@@ -240,7 +240,7 @@ fi
 
 nohup ./hysteria-linux-$arch server &
 
-echo "更新完成core完成"
+echo "更新core成功"
 }
 echo "正在更新"
 sleep 1
@@ -258,7 +258,7 @@ echo ""
 sleep 1
 
 if [ "$hy2zt" = "运行中" ]; then
-  echo "Hysteria 正在运行，请先卸载再安装。"
+  echo "Hysteria 正在运行"
   exit 1
 else
   echo "。"
@@ -672,11 +672,7 @@ create_and_configure_service
 enable_and_start_service
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "
-完成。
-"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-
+echo "完成"
 echo ""
 sleep 2
 
@@ -685,18 +681,17 @@ echo "$(random_color '
 cat /root/hy3/clash-mate.yaml
 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 
 if [ -n "$start_port" ] && [ -n "$end_port" ]; then
 
-  echo -e "Hysteria2节点链接信息:hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2"
-  
+  echo -e "----------链接----------"
+  echo -e "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2"
   echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2" > neko.txt
   
 else
 
-  echo -e "Hysteria2节点链接信息:hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hy2"
-  
+  echo -e "----------链接----------"
+  echo -e "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2"
   echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hy2" > neko.txt
   
 fi
