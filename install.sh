@@ -12,37 +12,6 @@ random_color() {
   echo -e "\e[${colors[$((RANDOM % 7))]}m$1\e[0m"
 }
 
-commands=("wget" "sed" "openssl" "net-tools" "psmisc" "procps" "iptables" "iproute2")
-package_manager=""
-install_command=""
-
-#安装一些东西
-if [ -x "$(command -v apt)" ]; then
-  package_manager="apt"
-  install_command="apt install -y"
-elif [ -x "$(command -v yum)" ]; then
-  package_manager="yum"
-  install_command="yum install -y"
-else
-  echo "Unsupported package manager."
-  exit 1
-fi
-
-install_missing_commands() {
-  for cmd in "${commands[@]}"; do
-    if ! command -v "$cmd" &>/dev/null; then
-      echo "Installing $cmd..."
-      sudo $install_command "$cmd"
-      if [ $? -eq 0 ]; then
-        echo "$cmd installed successfully."
-      else
-        echo "Failed to install $cmd."
-      fi
-    else
-      echo "$cmd is already installed."
-    fi
-  done
-}
 
 set_architecture() {
   case "$(uname -m)" in
