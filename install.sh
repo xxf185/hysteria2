@@ -102,10 +102,10 @@ echo -e "----------hysteria2一键脚本----------"
 echo -e ""
  }
 
-echo -e "安装必要依赖"
+echo -e ""
 sleep 1
 install_missing_commands > /dev/null 2>&1
-echo -e "依赖安装完成"
+echo -e ""
 
 set_architecture
 
@@ -193,14 +193,14 @@ exit
      ;;
    3)
 echo "----------链接----------" 
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"   
+echo ""
+
 cd /root/hy3/
 
 cat /root/hy3/neko.txt
 
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
+
 echo "clashmate配置"
 
 cat /root/hy3/clash-mate.yaml
@@ -230,7 +230,7 @@ rm -r hysteria-linux-$arch
 if wget -O hysteria-linux-$arch https://download.hysteria.network/app/latest/hysteria-linux-$arch; then
   chmod +x hysteria-linux-$arch
 else
-  if wget -O hysteria-linux-$arch https://github.com/apernet/xxf185/releases/latest/download/hysteria-linux-$arch; then
+  if wget -O hysteria-linux-$arch https://github.com/xxf185/hysteria/releases/latest/download/hysteria-linux-$arch; then
     chmod +x hysteria-linux-$arch
   else
     echo "下载失败"
