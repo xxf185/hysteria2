@@ -3,7 +3,7 @@
 # 检测当前用户是否为 root 用户
 if [ "$EUID" -ne 0 ]; then
   echo "请使用 root 用户执行此脚本！"
-  echo "你可以使用 'sudo -i' 进入 root 用户模式。"
+  echo ""
   exit 1
 fi
 
@@ -82,7 +82,7 @@ get_installed_version() {
     if [ -x "/root/hy3/hysteria-linux-$arch" ]; then
         version="$("/root/hy3/hysteria-linux-$arch" version | grep Version | grep -o 'v[.0-9]*')"
     else
-        version="你还没有安装,老登"
+        version="你还没有安装"
     fi
 }
 
@@ -97,18 +97,10 @@ fi
 }
 
 welcome() {
-
-echo -e "$(random_color '
-░██  ░██                                                              
-░██  ░██       ░████        ░█         ░█        ░█░█░█  
-░██  ░██     ░█      █      ░█         ░█        ░█    ░█ 
-░██████     ░██████         ░█         ░█        ░█    ░█ 
-░██  ░██     ░█             ░█ ░█      ░█  ░█     ░█░█░█ 
-░██  ░██      ░██  █         ░█         ░█                   ')"
- echo -e "$(random_color '
-人生有两出悲剧：一是万念俱灰，另一是踌躇满志 ')"
- 
-}
+echo -e ""
+echo -e "----------hysteria2一键脚本----------"
+echo -e ""
+ }
 
 echo -e "$(random_color '安装必要依赖中......')"
 sleep 1
@@ -124,19 +116,16 @@ checkact
 welcome
 
 #这些就行提示你输入的😇
-echo "$(random_color '选择一个操作，小崽子(ง ื▿ ื)ว：')"
-echo "1. 安装(以梦为马)"
-echo "2. 卸载(以心为疆)"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "3. 查看配置(穿越时空)"
-echo "4. 退出脚本(回到未来)"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "5. 在线更新hy2内核(您当前的hy2版本:$version)"
-echo "$(random_color 'hy2究极版本v24.01.01')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
+echo "1. 安装"
+echo "2. 卸载"
+echo "3. 查看配置"
+echo "4. 退出脚本"
+echo "5. 更新hy2内核(当前版本:$version)"
+echo ""
 echo "hysteria2状态: $hy2zt"
 
-read -p "输入操作编号 (1/2/3/4/5): " choice
+read -p "选择(1-5): " choice
 
 case $choice in
    1)
@@ -187,13 +176,13 @@ systemctl stop ipppp.service
 systemctl disable ipppp.service
 rm /etc/systemd/system/ipppp.service
 iptables -F
-echo "卸载完成(ง ื▿ ื)ว."
+echo "卸载完成"
  }
 
 uninstall_hysteria > /dev/null 2>&1
-echo -e "$(random_color '你别急,别急,正在卸载......')"
+echo -e "正在卸载"
 sleep 1
-echo -e "$(random_color '卸载完成,老登ψ(｀∇´)ψ！')"
+echo -e "卸载完成"
 
 exit
      ;;
@@ -203,7 +192,7 @@ exit
      exit
      ;;
    3)
-echo "$(random_color '下面是你的nekobox节点信息')" 
+echo "----------链接----------" 
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"   
 cd /root/hy3/
@@ -241,38 +230,38 @@ rm -r hysteria-linux-$arch
 if wget -O hysteria-linux-$arch https://download.hysteria.network/app/latest/hysteria-linux-$arch; then
   chmod +x hysteria-linux-$arch
 else
-  if wget -O hysteria-linux-$arch https://github.com/apernet/hysteria/releases/download/app/v2.2.2/hysteria-linux-$arch; then
+  if wget -O hysteria-linux-$arch https://github.com/apernet/xxf185/releases/latest/download/hysteria-linux-$arch; then
     chmod +x hysteria-linux-$arch
   else
-    echo "无法从任何网站下载文件"
+    echo "下载失败"
     exit 1
   fi
 fi
 
 nohup ./hysteria-linux-$arch server &
 
-echo "更新完成,不是哥们,你有什么实力,你直接给我坐下(ง ื▿ ื)ว."
+echo "更新完成core完成"
 }
-echo "$(random_color '正在更新中,别急,老登')"
+echo "正在更新"
 sleep 1
 updatehy2 > /dev/null 2>&1
-echo "$(random_color '更新完成,老登')"
+echo "更新完成"
     exit
     ;;
    *)
-     echo "$(random_color '无效的选择，退出脚本。')"
+     echo "选择无效"
      exit
      ;;
 esac
 
-echo "$(random_color '别急,别急,别急,老登')"
+echo ""
 sleep 1
 
 if [ "$hy2zt" = "运行中" ]; then
   echo "Hysteria 正在运行，请先卸载再安装。"
   exit 1
 else
-  echo "原神,启动。"
+  echo "。"
 fi
 
 installhy2 () {
@@ -282,15 +271,15 @@ cd ~/hy3
 if wget -O hysteria-linux-$arch https://download.hysteria.network/app/latest/hysteria-linux-$arch; then
   chmod +x hysteria-linux-$arch
 else
-  if wget -O hysteria-linux-$arch https://github.com/apernet/hysteria/releases/download/app/v2.2.2/hysteria-linux-$arch; then
+  if wget -O hysteria-linux-$arch https://github.com/xxf185/hysteria/releases/latest/download/hysteria-linux-$arch; then
     chmod +x hysteria-linux-$arch
   else
-    echo "无法从任何网站下载文件"
+    echo "下载失败"
     exit 1
   fi
 fi
 }
-echo "$(random_color '正在下载中,老登( ﾟдﾟ)つBye')"
+echo "正在下载"
 sleep 1
 installhy2 > /dev/null 2>&1
 
@@ -335,7 +324,7 @@ quic:
 EOL
 
 while true; do 
-    echo "$(random_color '请输入端口号（留空默认443，输入0随机2000-60000，你可以输入1-65630指定端口号）: ')" 
+    echo "请输入端口号（默认443，输入0随机2000-60000，你可以输入1-65630指定端口号）" 
     read -p "" port 
   
     if [ -z "$port" ]; then 
@@ -343,12 +332,12 @@ while true; do
     elif [ "$port" -eq 0 ]; then 
       port=$((RANDOM % 58001 + 2000)) 
     elif ! [[ "$port" =~ ^[0-9]+$ ]]; then 
-      echo "$(random_color '我的动物朋友，请输入数字好吧，请重新输入端口号：')" 
+      echo "重新输入" 
       continue 
     fi 
   
     while netstat -tuln | grep -q ":$port "; do 
-      echo "$(random_color '端口已被占用，请重新输入端口号：')" 
+      echo "端口已被占用，请重新输入" 
       read -p "" port 
     done 
   
@@ -368,7 +357,7 @@ generate_certificate() {
         chmod 600 "/etc/ssl/private/$domain_name.key" "/etc/ssl/private/$domain_name.crt"
         echo -e "自签名证书和私钥已生成！"
     else
-        echo -e "无效的域名或域名不可用，请输入有效的域名！"
+        echo -e "请输入有效的域名！"
         generate_certificate
     fi
 }
@@ -432,13 +421,13 @@ while true; do
   case $choice in
     1)
       get_ipv4_info
-      echo "老登你的IP 地址为：$ipwan"
+      echo "IP 地址为：$ipwan"
       ipta="iptables"
       break
       ;;
     2)
       get_ipv6_info
-      echo "老登你的IP 地址为：$ipwan"
+      echo "IP 地址为：$ipwan"
       ipta="ip6tables"
       break
       ;;
@@ -522,7 +511,7 @@ else
   exit 1
 fi
    
-    echo "$(random_color '是否要开启端口跳跃功能？如果你不知道是干啥的，就衮吧，不用开启(ง ื▿ ื)ว（回车默认不开启，输入1开启）: ')" 
+    echo "$(random_color '是否要开启端口跳跃功能（回车默认不开启，输入1开启）: ')" 
     read -p "" port_jump 
   
     if [ -z "$port_jump" ]; then 
@@ -688,7 +677,7 @@ echo "
 "
 echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 
-echo "$(random_color '老登,马上,马上了------')"
+echo ""
 sleep 2
 
 echo "$(random_color '
@@ -700,20 +689,18 @@ echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
 
 if [ -n "$start_port" ] && [ -n "$end_port" ]; then
 
-  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存哦joker(老登，请使用最新版的neko哦): ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hysteria2"
+  echo -e "Hysteria2节点链接信息:hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2"
   
-  echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hysteria2" > neko.txt
+  echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}mport=$port,$start_port-$end_port&sni=$domain$domain_name#Hy2" > neko.txt
   
 else
 
-  echo -e "$(random_color '这是你的Hysteria2节点链接信息，请注意保存哦小崽子: ')\nhysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hysteria2"
+  echo -e "Hysteria2节点链接信息:hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hy2"
   
-  echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hysteria2" > neko.txt
+  echo "hysteria2://$password@$ipwan$domain:$port/?${ovokk}sni=$domain$domain_name#Hy2" > neko.txt
   
 fi
 
-echo -e "$(random_color '
+echo -e "Hysteria2安装成功"
 
-Hysteria2安装成功，请合理使用哦,你直直-——直直接给我坐下')"
-
-echo "而你，我的朋友，你是恋爱脑里的常青树，Joker里的顶梁柱，麦当劳的吉祥物，哥谭市的大头目，扑克牌的最大数，蝙蝠侠的大客户……"
+echo ""
