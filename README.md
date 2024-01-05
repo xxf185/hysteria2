@@ -3,5 +3,5 @@ bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/hysteria2/main/hy2
 ```
 
 ```
-bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/hysteria2/main/hy2.sh)
+bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/hysteria2/main/install.sh)
 ```
