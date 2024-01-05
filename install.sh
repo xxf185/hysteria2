@@ -454,12 +454,12 @@ else
   read -p "" domain
 
   while [ -z "$domain" ]; do
-    echo "$(random_color '域名不能为空，请重新输入: ')"
+    echo "域名不能为空，请重新输入"
     read -p "" domain
   done
 
 
-  echo "$(random_color '请输入你的邮箱（默认随机邮箱）: ')"
+  echo "请输入你的邮箱（默认随机邮箱）"
   read -p "" email
 
   if [ -z "$email" ]; then
@@ -474,16 +474,16 @@ else
   if [ -f "config.yaml" ]; then
     echo -e "\nAppending to config.yaml..."
     echo -e $yaml_content >> config.yaml
-    echo "$(random_color '域名和邮箱已添加到 config.yaml 文件。')"
+    echo "域名和邮箱已添加到 config.yaml 文件"
     ipta="iptables"
     choice2="false"
   else
-    echo "$(random_color 'config.yaml 文件不存在，无法添加。')"
+    echo "config.yaml 文件不存在，无法添加"
     exit 1
   fi
 fi
 
-echo "$(random_color '请输入你的密码（留空将生成随机密码，不超过20个字符）: ')"
+echo "请输入你的密码（留空将生成随机密码，不超过20个字符）"
 read -p "" password
 
 if [ -z "$password" ]; then
@@ -491,13 +491,13 @@ if [ -z "$password" ]; then
 fi
 
 if sed -i "s/Se7RAuFZ8Lzg/$password/" config.yaml; then
-  echo "$(random_color '密码已设置为：')" $password
+  echo "密码已设置为" $password
 else
-  echo "$(random_color '替换密码失败，退出脚本。')"
+  echo "替换密码失败，退出脚本"
   exit 1
 fi
 
-echo "$(random_color '请输入伪装网址（默认https://news.ycombinator.com/）: ')"
+echo "请输入伪装网址（默认https://news.ycombinator.com/）"
 read -p "" masquerade_url
 
 if [ -z "$masquerade_url" ]; then
@@ -505,9 +505,9 @@ if [ -z "$masquerade_url" ]; then
 fi
 
 if sed -i "s|https://news.ycombinator.com/|$masquerade_url|" config.yaml; then
-  echo "$(random_color '伪装域名已设置为：')" $masquerade_url
+  echo "伪装域名已设置为" $masquerade_url
 else
-  echo "$(random_color '替换伪装域名失败，退出脚本。')"
+  echo "替换伪装域名失败，退出脚本"
   exit 1
 fi
    
@@ -519,22 +519,22 @@ fi
       break 
     elif [ "$port_jump" -eq 1 ]; then 
     
-      echo "$(random_color '请输入起始端口号(起始端口必须小于末尾端口): ')" 
+      echo "请输入起始端口号(起始端口必须小于末尾端口)" 
       read -p "" start_port 
   
-      echo "$(random_color '请输入末尾端口号(末尾端口必须大于起始端口): ')" 
+      echo "请输入末尾端口号(末尾端口必须大于起始端口)" 
       read -p "" end_port 
   
       if [ "$start_port" -lt "$end_port" ]; then 
         
 "$ipta" -t nat -A PREROUTING -i eth0 -p udp --dport "$start_port":"$end_port" -j DNAT --to-destination :"$port" 
-        echo "$(random_color '端口跳跃功能已开启，将范围重定向到主端口：')" "$port" 
+        echo "端口跳跃功能已开启，将范围重定向到主端口" "$port" 
         break 
       else 
-        echo "$(random_color '末尾端口必须大于起始端口，请重新输入。')" 
+        echo "末尾端口必须大于起始端口，请重新输入" 
       fi 
     else 
-      echo "$(random_color '输入无效，请输入1开启端口跳跃功能，或直接按回车跳过。')" 
+      echo "输入无效，请输入1开启端口跳跃功能，或直接按回车跳过" 
     fi 
 done 
 
@@ -561,16 +561,16 @@ if [ -n "$port_jump" ] && [ "$port_jump" -eq 1 ]; then
   # 启动服务 
   systemctl start ipppp.service 
   
-  echo "$(random_color '已创建/ipppp.sh脚本文件并设置开机自启动。')"
+  echo "已创建/ipppp.sh脚本文件并设置开机自启动"
 fi
 
 fuser -k -n tcp $port
 fuser -k -n udp $port
 
 if sudo setcap cap_net_bind_service=+ep hysteria-linux-$arch; then
-  echo "$(random_color '授予权限成功。')"
+  echo "授予权限成功"
 else
-  echo "$(random_color '授予权限失败，退出脚本。')"
+  echo "授予权限失败，退出脚本"
   exit 1
 fi
 
@@ -614,23 +614,19 @@ proxy-groups:
 rules:
   - MATCH,auto
 EOL
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "
-clash-mate.yaml 已保存到当前文件夹
-"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+
+echo "clash-mate.yaml 已保存到当前文件夹"
+echo ""
 
 if nohup ./hysteria-linux-$arch server & then
   echo "$(random_color '
   Hysteria 服务器已启动。')"
 else
-  echo "$(random_color '启动 Hysteria 服务器失败，退出脚本。')"
+  echo "启动服务失败"
   exit 1
 fi
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
+echo ""
 hysteria_directory="/root/hy3/"
 hysteria_executable="/root/hy3/hysteria-linux-$arch"
 hysteria_service_file="/etc/systemd/system/hysteria.service"
@@ -671,16 +667,15 @@ enable_and_start_service() {
 create_and_configure_service
 enable_and_start_service
 
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
 echo "完成"
 echo ""
 sleep 2
 
-echo "$(random_color '
-这是你的clash配置:')"
+echo "clash-mate"
 cat /root/hy3/clash-mate.yaml
 
-echo "$(random_color '>>>>>>>>>>>>>>>>>>>>')"
+echo ""
 
 if [ -n "$start_port" ] && [ -n "$end_port" ]; then
 
