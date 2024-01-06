@@ -124,7 +124,7 @@ getVersion() {
     VER=`/etc/hysteria/hysteria version | grep ersion | head -n1 | awk '{print $2}'`
     RETVAL=$?
     CUR_VER="$(normalizeVersion "$(echo "$VER" | head -n 1 | cut -d " " -f2)")"
-    TAG_URL="https://api.github.com/repos/apernet/hysteria/releases/latest"
+    TAG_URL="https://api.github.com/repos/xxf185/hysteria/releases/latest"
     NEW_VER="$(normalizeVersion "$(curl -s "${TAG_URL}" --connect-timeout 10| grep -Eo '\"tag_name\"(.*?)\",' | cut -d\" -f4 | cut -d\/ -f2)")"
 
     if [[ $? -ne 0 ]] || [[ $NEW_VER == "" ]]; then
@@ -141,7 +141,7 @@ getVersion() {
 Download_hysteria(){
     archAffix
     getVersion
-    DOWNLOAD_LINK="https://github.com/apernet/hysteria/releases/download/app%2F${NEW_VER}/hysteria-linux-${CPU}"
+    DOWNLOAD_LINK="https://github.com/xxf185/hysteria/releases/download/app%2F${NEW_VER}/hysteria-linux-${CPU}"
     colorEcho $YELLOW "下载hysteria: ${DOWNLOAD_LINK}"
     curl -L -H "Cache-Control: no-cache" -o /etc/hysteria/hysteria ${DOWNLOAD_LINK}
     chmod +x /etc/hysteria/hysteria
@@ -394,23 +394,17 @@ Uninstall_hysteria(){
 checkSystem
 menu() {
 	clear
-	echo "################################"
-	echo -e "#     ${RED}Hysteria2一键安装脚本${PLAIN}    #"
-	echo -e "# ${GREEN}作者${PLAIN}: 怠惰(Slotheve)         #"
-	echo -e "# ${GREEN}网址${PLAIN}: https://slotheve.com   #"
-	echo -e "# ${GREEN}频道${PLAIN}: https://t.me/SlothNews #"
-	echo "################################"
-	echo " ----------------------"
-	echo -e "  ${GREEN}1.${PLAIN}  安装Hysteria2"
-	echo -e "  ${GREEN}2.${PLAIN}  ${RED}卸载Hysteria2${PLAIN}"
-	echo " ----------------------"
- 	echo -e "  ${GREEN}3.${PLAIN}  启动Hysteria2"
-	echo -e "  ${GREEN}4.${PLAIN}  重启Hysteria2"
-	echo -e "  ${GREEN}5.${PLAIN}  停止Hysteria2"
-	echo " ----------------------"
-	echo -e "  ${GREEN}6.${PLAIN}  查看Hysteria2配置"
-	echo " ----------------------"
-	echo -e "  ${GREEN}0.${PLAIN}  退出"
+	echo ""
+	echo -e "${YELLOW}----------Hysteria2一键安装脚本----------${PLAIN}"
+	echo " "
+	echo -e "  ${GREEN}1.  安装${PLAIN}"
+	echo -e "  ${GREEN}2.  卸载${PLAIN}"
+ 	echo -e "  ${GREEN}3.  启动${PLAIN}"
+	echo -e "  ${GREEN}4.  重启${PLAIN}"
+	echo -e "  ${GREEN}5.  停止${PLAIN}"
+	echo -e "  ${GREEN}6.  查看配置${PLAIN}"
+	echo " "
+	echo -e "  ${GREEN}0.  退出${PLAIN}"
 	echo ""
 	echo -n " 当前状态："
 	statusText
