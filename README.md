@@ -3,6 +3,3 @@ bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/hysteria2/main/hy2
 ```
 
 
-```
-bash <(wget -qO- -o- https://raw.githubusercontent.com/xxf185/hysteria2/main/hysteria.sh)
-```
